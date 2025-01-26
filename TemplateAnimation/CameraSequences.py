@@ -34,7 +34,8 @@ class CameraSequences:
         sequence()
 
     def initial_operations(self):
-        pass
+        self.data.navigation.globalPositionData.position = (0, 0)
+        self.data.navigation.globalPositionData.scale = 1
 
     def init_sequences(self):
         self.sequences = (

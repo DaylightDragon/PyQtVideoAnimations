@@ -1,6 +1,10 @@
 def easeInOutCubic(t):
     return t * t * t if t < 0.5 else (t - 1) * (t - 1) * (t - 1) + 1
 
+def easeOutCubic(t):
+    t *= 2
+    return 0.5 * (t * t * t if t < 1 else (t - 2) * (t - 2) * (t - 2) + 2)
+
 # 1. Квадратичное (Quadratic)
 
 def easeInQuad(t):
@@ -18,8 +22,8 @@ def easeInOutQuad(t):
 def easeInCubic(t):
     return t*t*t
 
-def easeOutCubic(t):
-  return ((t-1)**3)+1
+# def easeOutCubic(t):
+#   return ((t-1)**3)+1
 
 # def easeInOutCubic(t):
 #     return 4*t*t*t if t < 0.5 else ((2*t-2)**3) + 2

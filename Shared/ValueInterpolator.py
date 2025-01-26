@@ -60,6 +60,12 @@ class ValueInterpolator:
 
         self.smoothValueEasing = easingFunction
 
+    def pulseOutOfValue(self, target_value, duration, start_delay=0, easingFunction=Easings.easeInOutQuad, realDurationCoef=0.2):
+        value1 = target_value
+        value2 = self.value
+        self.value = value1
+        self.fadeToValue(target_value=value2, duration=duration, start_delay=start_delay, easingFunction=easingFunction, realDurationCoef=realDurationCoef)
+
     def pulseToValue(self, target_value, duration, start_delay=0, easingFunction=Easings.easeInOutQuad, realDurationCoef=0.2, alreadyBack=False):
         duration = duration / 2
         self.alreadyBack = alreadyBack
@@ -85,6 +91,7 @@ class ValueInterpolator:
 
             # print('Upd', '{0:.2f}'.format(elapsedTime), "/", '{0:.2f}'.format(self.smoothValueRealDuration))
             if elapsedTime >= self.smoothValueRealDuration:
+                print('end')
                 self.value = self.smoothValueTarget
                 if self.alreadyBack or not self.twoWayAnimation:
                     self.smoothValueStartTime = None
@@ -95,8 +102,8 @@ class ValueInterpolator:
                 t = self.smoothValueEasing(t)
 
                 valueFrom = self.value
-                if self.customInternalGetFunc is not None:
-                    print('getting')
-                    valueFrom = self.customInternalGetFunc()
+                # if self.customInternalGetFunc is not None:
+                #     print('getting')
+                #     valueFrom = self.customInternalGetFunc()
 
                 self.value = valueFrom + (self.smoothValueTarget - valueFrom) * t

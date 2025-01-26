@@ -34,7 +34,8 @@ def drawSphereAt(painter: QPainter, data: Data, raw_pos, radius, fill_color, out
 def getAutoScaledFontSize(data: Data, font_size):
     return int(pow(data.navigation.globalPositionData.scale * font_size, 0.9))
 
-def drawTextAt(painter: QPainter, data: Data, raw_pos, text, color=None, outline_width=2, font_size=14, outline=False, outline_color=None, keepWidth=False, keepHeight=False, scaleFont=False):
+def drawTextAt(painter: QPainter, data: Data, raw_pos, text, color=None, outline_width=2, font_size=14, outline=False, outline_color=None, keepWidth=False, keepHeight=False, scaleFont=False, offsetSize = 10):
+
     if outline and outline_color is not None:
         drawTextAt(painter=painter, data=data, raw_pos=raw_pos, text=text, color=outline_color, outline_width=outline_width + 30, font_size=font_size, outline=False, outline_color=None, keepWidth=keepWidth, keepHeight=keepHeight, scaleFont=scaleFont)
 
@@ -54,7 +55,7 @@ def drawTextAt(painter: QPainter, data: Data, raw_pos, text, color=None, outline
         painter.setPen(QPen(color, outline_width))
 
     font = QFont("Franklin Gothic Demi Cond")
-    font.setPixelSize(font_size)
+    font.setPixelSize(int(font_size))
     painter.setFont(font)
 
     lines = text.splitlines()
@@ -70,10 +71,12 @@ def drawTextAt(painter: QPainter, data: Data, raw_pos, text, color=None, outline
         metrics = painter.fontMetrics()
         text_rect = metrics.boundingRect(line)
         x = pos[0] - text_rect.width() / 2
-        y = pos[1] + metrics.ascent() / 2 - metrics.descent() + y_offset  # pos[1] + metrics.ascent() / 2 - metrics.descent() /2 + y_offset
+        y = pos[1] + y_offset + metrics.ascent() / 2 - metrics.descent() * 2
+        # print(metrics.ascent(), metrics.descent())
 
-        painter.drawText(int(x - 10), int(y - 10), int(text_rect.width() + 10), int(text_rect.height() + 10), Qt.AlignmentFlag.AlignCenter, line)
-        y_offset += text_rect.height()
+        painter.drawText(int(x - offsetSize), int(y - offsetSize), int(text_rect.width() + offsetSize*2), int(text_rect.height() + offsetSize*2),
+                         Qt.AlignmentFlag.AlignCenter, line)
+        # y_offset += text_rect.height()
 
 
 def drawArrowPointerAt(painter: QPainter, data: Data, start_point_raw, angle_degrees, base_side_size, long_side_size, color, outlineColor, outlineWidth=2):
