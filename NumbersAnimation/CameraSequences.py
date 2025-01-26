@@ -51,6 +51,7 @@ class CameraSequences:
     def initial_operations(self):
         self.data.navigation.globalPositionData.position = (0, 0)
         self.data.navigation.globalPositionData.scale = self.small_scale
+        self.data.navigation.zoom_value = 1
 
         mainText: NumberText = self.data.simulation.getTextById('mainText')
         mainText.x.setValue(0)
@@ -59,7 +60,11 @@ class CameraSequences:
         mainText.setOnValueChange(self.onNewValue)
 
         mainText.animation_extra_font_size.setValue(3)
-        mainText.value.setValue(1000)
+        mainText.value.setValue(10)
+
+    def increaseNumber0_1(self):
+        mainText: NumberText = self.data.simulation.getTextById('mainText')
+        mainText.value.fadeToValue(target_value=24, duration=600, easingFunction=Easings.easeOutQuint, realDurationCoef=0.0012)
 
     def increaseNumber1(self):
         mainText: NumberText = self.data.simulation.getTextById('mainText')
@@ -72,6 +77,7 @@ class CameraSequences:
     def init_sequences(self):
         self.sequences = (
             # lambda: self.data.cameraMovement.smoothMoveTo(targetX=0, targetY=0, targetScale=5, duration=5),
+            self.increaseNumber0_1,
             self.increaseNumber1,
             self.increaseNumber2,
         )

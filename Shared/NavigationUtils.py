@@ -126,6 +126,17 @@ class Navigation:
         except AttributeError:
             pass
 
+    zoom_value = 0.1
+
+    def zoomInSimple(self):
+        self.globalPositionData.scale += self.zoom_value
+        self.notifyMovementListeners()
+
+    def zoomOutSimple(self):
+        if self.globalPositionData.scale - self.zoom_value > 0:
+            self.globalPositionData.scale -= self.zoom_value
+        self.notifyMovementListeners()
+
     def on_mouse_left_click(self, event):
         self.controlsData.state = 'clicked'
 

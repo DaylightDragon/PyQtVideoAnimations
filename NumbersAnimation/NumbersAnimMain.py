@@ -72,6 +72,7 @@ class MainWindow(QMainWindow):
             for ui in data.uis:
                 ui.setVisible(not data.hideUi)
                 ui.repaint()
+        self.data.keybindManager.keyReleaseEvent(event)
 
 
 def load_style(file_path):

@@ -2,6 +2,7 @@ from PyQt6.QtGui import QPainter
 
 from Shared import Links
 from Shared.FrameUpdater import FrameUpdater
+from Shared.KeybindManager import KeybindManager
 from Shared.ValueInterpolator import ValueInterpolator
 
 
@@ -36,6 +37,7 @@ class Data:
         self.animated = []
         self.fps = fps
         self.frameUpdater = FrameUpdater(self)
+        self.keybindManager = KeybindManager(self)
         self.renderWindowSize = size
         self.timeScale = 3
 
