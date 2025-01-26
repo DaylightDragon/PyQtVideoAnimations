@@ -39,6 +39,10 @@ def drawTextAt(painter: QPainter, data: Data, raw_pos, text, color=None, outline
     if outline and outline_color is not None:
         drawTextAt(painter=painter, data=data, raw_pos=raw_pos, text=text, color=outline_color, outline_width=outline_width + 30, font_size=font_size, outline=False, outline_color=None, keepWidth=keepWidth, keepHeight=keepHeight, scaleFont=scaleFont)
 
+    # lineOffset =
+    # for line in text.splitlines()[1:]:
+    #     self.draw
+
     pos = data.navigation.convertPosAbstractToDisplay(raw_pos)
 
     # if keepWidth:
@@ -61,22 +65,31 @@ def drawTextAt(painter: QPainter, data: Data, raw_pos, text, color=None, outline
     lines = text.splitlines()
     total_height = 0
 
-    for line in lines:
-        metrics = painter.fontMetrics()
-        total_height += metrics.boundingRect(line).height()
-
-    y_offset = -total_height / 2
+    rects = []
+    metrics = painter.fontMetrics()
 
     for line in lines:
-        metrics = painter.fontMetrics()
-        text_rect = metrics.boundingRect(line)
+        rect = metrics.boundingRect(line)
+        rects.append(rect)
+        total_height += rect.height()
+
+    y_offset_cur = -total_height / 2
+    # print(total_height, y_offset)
+
+    for i in range(len(lines)-1, -1, -1):
+        line = lines[i]
+        text_rect = rects[i]
+
         x = pos[0] - text_rect.width() / 2
-        y = pos[1] + y_offset + metrics.ascent() / 2 - metrics.descent() * 2
+        y = pos[1] - y_offset_cur - metrics.ascent() - metrics.descent() / 2
         # print(metrics.ascent(), metrics.descent())
 
-        painter.drawText(int(x - offsetSize), int(y - offsetSize), int(text_rect.width() + offsetSize*2), int(text_rect.height() + offsetSize*2),
+        painter.drawText(int(x - offsetSize),
+                         int(y - offsetSize),
+                         int(text_rect.width() + offsetSize),
+                         int(text_rect.height() + offsetSize),
                          Qt.AlignmentFlag.AlignCenter, line)
-        # y_offset += text_rect.height()
+        y_offset_cur += text_rect.height()
 
 
 def drawArrowPointerAt(painter: QPainter, data: Data, start_point_raw, angle_degrees, base_side_size, long_side_size, color, outlineColor, outlineWidth=2):
@@ -103,9 +116,13 @@ def drawArrowPointerAt(painter: QPainter, data: Data, start_point_raw, angle_deg
     # drawSphereAt(painter, data, data.navigation.convertPosDisplayToAbstract(qpointToTuple(mid_point)), radius=10,
     #              fill_color=QColor(255, 0, 0))
 
-def drawLineAt(painter: QPainter, data: Data, point1_raw, point2_raw, color, width=2):
-    point1 = data.navigation.convertPosAbstractToDisplay(point1_raw)
-    point2 = data.navigation.convertPosAbstractToDisplay(point2_raw)
+def drawLineAt(painter: QPainter, data: Data, point1_raw, point2_raw, color, width=2, displaySpaceAlready=False):
+    if displaySpaceAlready:
+        point1 = point1_raw
+        point2 = point2_raw
+    else:
+        point1 = data.navigation.convertPosAbstractToDisplay(point1_raw)
+        point2 = data.navigation.convertPosAbstractToDisplay(point2_raw)
 
     painter.setPen(QPen(color, width, Qt.PenStyle.SolidLine))  # , Qt.PenStyle.RoundCap, Qt.PenStyle.RoundJoin
 

@@ -39,7 +39,7 @@ class ColorInterpolator:
         self.smoothColorTarget = target_color
 
         self.smoothColorDuration = duration
-        self.smoothColorRealDuration = duration * realDurationCoef
+        self.smoothColorRealDuration = duration * min(1.0, realDurationCoef)
         self.realDurationCoef = realDurationCoef
 
         self.smoothColorEasing = easingFunction

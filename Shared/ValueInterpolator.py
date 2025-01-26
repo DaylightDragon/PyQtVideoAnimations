@@ -55,7 +55,7 @@ class ValueInterpolator:
         self.smoothValueTarget = target_value
 
         self.smoothValueDuration = duration
-        self.smoothValueRealDuration = duration * realDurationCoef
+        self.smoothValueRealDuration = duration * min(1.0, realDurationCoef)
         self.realDurationCoef = realDurationCoef
 
         self.smoothValueEasing = easingFunction
@@ -76,7 +76,7 @@ class ValueInterpolator:
         self.smoothValueTarget = target_value
 
         self.smoothValueDuration = duration
-        self.smoothValueRealDuration = duration * realDurationCoef
+        self.smoothValueRealDuration = duration * min(1.0, realDurationCoef)
         self.realDurationCoef = realDurationCoef
 
         self.smoothValueEasing = easingFunction
@@ -91,7 +91,6 @@ class ValueInterpolator:
 
             # print('Upd', '{0:.2f}'.format(elapsedTime), "/", '{0:.2f}'.format(self.smoothValueRealDuration))
             if elapsedTime >= self.smoothValueRealDuration:
-                print('end')
                 self.value = self.smoothValueTarget
                 if self.alreadyBack or not self.twoWayAnimation:
                     self.smoothValueStartTime = None

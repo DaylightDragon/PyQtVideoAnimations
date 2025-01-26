@@ -1,3 +1,6 @@
+from PyQt6.QtGui import QColor
+
+from Shared import CanvasUtils
 from Shared.CameraMovement import CameraMovement
 from NumbersAnimation.CameraSequences import CameraSequences
 from Shared.NumberText import NumberText
@@ -30,3 +33,33 @@ class Simulation:
     def updateGraphics(self, painter):
         for something in self.texts:
             something.updateGraphics(painter)
+        if not self.data.hideUi:
+            # CanvasUtils.drawLineAt(painter=painter,
+            #                        data=self.data,
+            #                        point1_raw=(self.data.renderWindowSize[0]/2 - 100, self.data.renderWindowSize[1]/2),
+            #                        point2_raw=(self.data.renderWindowSize[0]/2 + 100, self.data.renderWindowSize[1]/2),
+            #                        color=QColor.fromRgb(255, 255, 255),
+            #                        width=2,
+            #                        displaySpaceAlready=True)
+            # CanvasUtils.drawLineAt(painter=painter,
+            #                        data=self.data,
+            #                        point1_raw=(self.data.renderWindowSize[0] / 2, self.data.renderWindowSize[1] / 2 - 100),
+            #                        point2_raw=(self.data.renderWindowSize[0] / 2, self.data.renderWindowSize[1] / 2 + 100),
+            #                        color=QColor.fromRgb(255, 255, 255),
+            #                        width=2,
+            #                        displaySpaceAlready=True)
+
+            CanvasUtils.drawLineAt(painter=painter,
+                                   data=self.data,
+                                   point1_raw=(-100, 0),
+                                   point2_raw=(+100, 0),
+                                   color=QColor.fromRgb(255, 255, 255),
+                                   width=2,
+                                   displaySpaceAlready=False)
+            CanvasUtils.drawLineAt(painter=painter,
+                                   data=self.data,
+                                   point1_raw=(0, -100),
+                                   point2_raw=(0, +100),
+                                   color=QColor.fromRgb(255, 255, 255),
+                                   width=2,
+                                   displaySpaceAlready=False)

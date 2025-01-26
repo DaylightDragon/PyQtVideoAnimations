@@ -60,7 +60,7 @@ class CameraMovement:
         self.smoothMoveTargetScale = targetScale
 
         self.smoothMoveDuration = duration
-        self.smoothMoveRealDuration = duration * realDurationCoef
+        self.smoothMoveRealDuration = duration * min(1.0, realDurationCoef)
 
         self.smoothMoveEasing = easingFunction
         # print('Movement started')

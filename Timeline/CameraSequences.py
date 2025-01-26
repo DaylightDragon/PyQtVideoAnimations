@@ -57,8 +57,8 @@ class CameraSequences:
 
     # INSTRUCTIONS          INSTRUCTIONS          INSTRUCTIONS          INSTRUCTIONS          INSTRUCTIONS
 
-    def diveIntoCurrent(self, duration=10):
-        self.data.cameraMovement.smoothMoveTo(targetX=self.data.cameraMovement.getX(), targetY=-15, targetScale=100, duration=duration, easingFunction=Easings.easeInExpo)
+    def diveIntoCurrent(self, targetY=-15, duration=10, easingFunction=Easings.easeInExpo, realDurationCoef=0.2):
+        self.data.cameraMovement.smoothMoveTo(targetX=self.data.cameraMovement.getX(), targetY=targetY, targetScale=100, duration=duration, easingFunction=easingFunction, realDurationCoef=realDurationCoef)
 
     def diveIntoCurrentInstant(self):
         self.diveIntoCurrent(0)
@@ -95,7 +95,7 @@ class CameraSequences:
     # KER SIGMA       KER SIGMA       KER SIGMA       KER SIGMA       KER SIGMA       KER SIGMA       KER SIGMA
 
     def focusOnBeginningTillAerVid(self):
-        self.data.cameraMovement.smoothMoveTo(targetX=-200, targetY=0, targetScale=5, duration=5)
+        self.data.cameraMovement.smoothMoveTo(targetX=-200, targetY=0, targetScale=5, duration=5, realDurationCoef=0.4)
 
     def focusOnBeginningTillAerVidInstant(self):
         self.data.cameraMovement.smoothMoveTo(targetX=-100, targetY=0, targetScale=5, duration=0)
@@ -173,7 +173,7 @@ class CameraSequences:
             self.focusAndFlashOnAerVid,
             self.focusBetweenGettingAerAndAerVid,
             self.flashOnBeforeAerVidDurationLine,
-            self.diveIntoCurrent
+            lambda: self.diveIntoCurrent(duration=30, targetY=-30, easingFunction=Easings.easeInQuad, realDurationCoef=0.1),
         )
 
     def kerSigmaSequence(self):

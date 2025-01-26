@@ -31,7 +31,7 @@ class TimelineEvent:
         CanvasUtils.drawRectAtCenter(painter=painter, data=self.data, raw_pos=(self.position, 0), size=(self.width, self.data.visualSizes.eventHeight.getValue()), fill_color=ColorTools.apply_opacity_to_color(self.text_color.getValue(), self.line_opacity.getValue()), keepWidth=True, keepHeight=True)
         offset_scaled = int(pow(self.data.navigation.globalPositionData.scale, 0.2) * self.data.visualSizes.eventTextOffset.getValue())
         CanvasUtils.drawTextAt(painter=painter, data=self.data, raw_pos=(self.position, offset_scaled), text=self.label, color=ColorTools.apply_opacity_to_color(self.text_color.getValue(), self.text_opacity.getValue()), scaleFont=not self.noDynamicTextScale,
-                               font_size=(self.font_size.getValueInt() if not self.noDynamicTextScale else self.lastDynamicTextScaleValue))
+                               font_size=(self.font_size.getValue() if not self.noDynamicTextScale else self.lastDynamicTextScaleValue))
 
     def updatePhysics(self):
         pass
