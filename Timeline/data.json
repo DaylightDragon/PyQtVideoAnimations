@@ -1,0 +1,58 @@
+{
+  "events": [
+    {
+      "position": -300,
+      "label": "Начало игры\nв сонарию",
+      "id": "cosStart"
+    },
+    {
+      "position": -200,
+      "label": "Получение аериса",
+      "id": "gettingAer"
+    },
+    {
+      "position": -160,
+      "label": "???",
+      "id": "keruku"
+    },
+    {
+      "position": -122,
+      "label": "???",
+      "id": "sigmatox"
+    },
+    {
+      "position": -100,
+      "label": "Видео про аериса",
+      "id": "aerVideo"
+    },
+    {
+      "position": -20,
+      "label": "Эзералотус",
+      "id": "etheralotus"
+    },
+    {
+      "position": 0,
+      "label": "Новый год\n2023",
+      "id": "newYear"
+    },
+    {
+      "position": 150,
+      "label": "LSS 2023",
+      "id": "newYear"
+    }
+  ],
+  "durations": [
+    {
+      "start": "cosStart",
+      "end": "gettingAer",
+      "text": "2 месяца",
+      "id": "BeforeGettingAerDL"
+    },
+    {
+      "start": "gettingAer",
+      "end": "aerVideo",
+      "text": "2 месяца",
+      "id": "BeforeAerVidDL"
+    }
+  ]
+}
