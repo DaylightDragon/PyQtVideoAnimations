@@ -36,7 +36,7 @@ class CameraSequences:
         sequence = self.sequences[self.index]
         sequence()
 
-    small_scale = 15
+    small_scale = 10
     # big_scale = small_scale * 1.2
 
     def onNewValue(self, oldValue, newValue):
@@ -49,7 +49,7 @@ class CameraSequences:
         #                                       )
 
     def mainTextFormatFuncAccs(self, value, formattedNumber):
-        return f'Аккаунтов: {formattedNumber}'
+        return (f'Аккаунтов: {formattedNumber}')
 
     def initial_operations(self):
         self.data.navigation.globalPositionData.position = (0, 0)
@@ -57,19 +57,27 @@ class CameraSequences:
         self.data.navigation.zoom_value = 1
 
         mainText: NumberText = self.data.simulation.getTextById('mainText')
-        mainText.outline_color
         mainText.x.setValue(0)
         mainText.y.setValue(0)
         mainText.setFontSize(20)
         mainText.setOnValueChange(self.onNewValue)
         mainText.setCustomFormatFunc(self.mainTextFormatFuncAccs)
+        mainText.value.instanceId = 'mainNum'
+        mainText.font_size.instanceId = 'mainNum font_size'
+        mainText.actual_font_size.instanceId = 'mainNum actual_font_size'
+        mainText.outline_width.setValue(15)
+        mainText.outline_color.setValue(QColor.fromRgb(60,60,60))
 
         mainText.animation_extra_font_size.setValue(3)
         mainText.value.setValue(8)
 
     def increaseNumber0_1(self):
         mainText: NumberText = self.data.simulation.getTextById('mainText')
-        mainText.value.fadeToValue(target_value=12, duration=300, easingFunction=Easings.easeOutQuint, realDurationCoef=0.0027)
+        mainText.value.fadeToValue(target_value=12.5, duration=1, easingFunction=Easings.easeOutQuint, realDurationCoef=0.9)
+
+    def increaseNumber0_2(self):
+        mainText: NumberText = self.data.simulation.getTextById('mainText')
+        mainText.value.fadeToValue(target_value=8, duration=1, easingFunction=Easings.easeOutQuint, realDurationCoef=0.9)
 
     def increaseNumber1(self):
         mainText: NumberText = self.data.simulation.getTextById('mainText')
@@ -83,6 +91,7 @@ class CameraSequences:
         self.sequences = (
             # lambda: self.data.cameraMovement.smoothMoveTo(targetX=0, targetY=0, targetScale=5, duration=5),
             self.increaseNumber0_1,
-            self.increaseNumber1,
-            self.increaseNumber2,
+            self.increaseNumber0_2,
+            # self.increaseNumber1,
+            # self.increaseNumber2,
         )

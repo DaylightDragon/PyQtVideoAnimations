@@ -41,10 +41,13 @@ class WindowRect:
                                outline_color=ColorTools.apply_opacity_to_color(self.line_color.getValue(), self.line_opacity.getValue()),
                                fill_color=self.fill_color.getValue())
 
-        CanvasUtils.drawTextAt(painter=painter, data=self.data,
+        CanvasUtils.drawTextAt(painter=painter,
+                               data=self.data,
                                raw_pos=(self.x.getValue() + self.width.getValue() / 2 + self.text_x.getValue(), self.y.getValue() + self.height.getValue() / 2 + self.text_y.getValue()),
                                text=self.text,
-                               color=ColorTools.apply_opacity_to_color(self.text_color.getValue(), self.text_opacity.getValue()), font_size=self.font_size.getValue(), scaleFont=True)
+                               color=ColorTools.apply_opacity_to_color(self.text_color.getValue(), self.text_opacity.getValue()),
+                               font_size=self.font_size.getValue(),
+                               scaleFont=True)
 
     def updatePhysics(self):
         pass

@@ -1,3 +1,6 @@
+import time
+
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
 
 from Shared import CanvasUtils, ColorTools, Easings
@@ -15,11 +18,11 @@ class NumberText:
 
         self.text_color = ColorInterpolator(QColor.fromRgb(200, 200, 200))
         self.text_opacity = ValueInterpolator(1.0)
-        self.font_size = ValueInterpolator(12)
+        self.font_size = ValueInterpolator(12)  # doesn't get intentionally interpolated by default
 
         self.outline_color = ColorInterpolator(QColor.fromRgb(50, 50, 50))
         self.outline_opacity = ValueInterpolator(1.0)
-        self.outline_width = ValueInterpolator(2)
+        self.outline_width = ValueInterpolator(10)
 
         self.animation_extra_font_size = ValueInterpolator(10)
 
@@ -27,6 +30,7 @@ class NumberText:
         # self.actual_font_size.setCustomInternalGetFunc(lambda: self.font_size.getValue())
 
         self.value = ValueInterpolator(0)
+
         self.__lastWholeNumber = None
         self.onValueChange = None
         self.customFormatFunc = None
@@ -62,26 +66,39 @@ class NumberText:
                     self.onValueChange(self.__lastWholeNumber, curWholeNumber)
                 self.actual_font_size.stop()
                 self.actual_font_size.setValue(self.font_size.getValue())
-                self.actual_font_size.pulseOutOfValue(target_value=self.font_size.getValue() + self.animation_extra_font_size.getValue(),
-                                                      duration=30,
-                                                      easingFunction=Easings.easeOutExpo)
+                print('curWholeNumber', curWholeNumber)
+                self.actual_font_size.pulseOutOfValue(
+                    target_value=self.font_size.getValue() + self.animation_extra_font_size.getValue(),
+                    duration=0.7, realDurationCoef=0.9,
+                    easingFunction=Easings.easeOutExpo,
+                    easingFuncArgs=()
+                )
 
         formattedNumber = self.formatNumber(self.value.getValueInt())
         final_text = formattedNumber
         if self.customFormatFunc is not None:
             final_text = self.customFormatFunc(self.value, formattedNumber)
 
-        CanvasUtils.drawTextAt(painter=painter,
-                               data=self.data,
-                               raw_pos=(self.x.getValue(), self.y.getValue()),
-                               text=final_text,
-                               color=ColorTools.apply_opacity_to_color(self.text_color.getValue(), self.text_opacity.getValue()),
-                               font_size=self.actual_font_size.getValue(),
-                               outline=True,
-                               outline_color=ColorTools.apply_opacity_to_color(self.outline_color.getValue(), self.outline_opacity.getValue()),
-                               outline_width=self.outline_width.getValue(),
-                               scaleFont=True,
-                               offsetSize=60)
+        start_time = time.perf_counter()
+
+        CanvasUtils.drawTextAtNew(painter=painter,
+                                data=self.data,
+                                raw_pos=(self.x.getValue(), self.y.getValue()),
+                                text=final_text,
+                                color=ColorTools.apply_opacity_to_color(self.text_color.getValue(),
+                                                                        self.text_opacity.getValue()),
+                                font_size=self.actual_font_size.getValue(),
+                                outline=True,
+                                outline_color=ColorTools.apply_opacity_to_color(self.outline_color.getValue(),
+                                                                                self.outline_opacity.getValue()),
+                                outline_width=self.outline_width.getValue(),
+                                scaleFont=True,
+                                offsetSize=60,
+                                alignment=Qt.AlignmentFlag.AlignCenter)
+
+        end_time = time.perf_counter()
+        elapsed_time = end_time - start_time
+        # print(f"Drawing time: {elapsed_time:.6f} seconds, can draw {int(1/elapsed_time)} per second")
 
     def updatePhysics(self):
         pass
