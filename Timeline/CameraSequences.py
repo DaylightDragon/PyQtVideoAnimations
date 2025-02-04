@@ -63,8 +63,12 @@ class CameraSequences:
     def diveIntoCurrentInstant(self):
         self.diveIntoCurrent(0)
 
+    def diveIntoGettingAer(self):
+        gettingAer = self.data.simulation.getEventById("gettingAer")
+        self.data.cameraMovement.smoothMoveTo(targetX=gettingAer.position, targetY=20, targetScale=100, duration=0)
+
     def focusOnAfterAer(self):
-        self.data.cameraMovement.smoothMoveTo(targetX=-200, targetScale=4, duration=5)
+        self.data.cameraMovement.smoothMoveTo(targetX=-200, targetScale=4, duration=5, realDurationCoef=0.3)
         self.data.visualSizes.durationLineGeneralOffset.fadeToValue(target_value=-50, duration=5)
 
     def flashOnStartAndGettingAer(self):
@@ -167,13 +171,13 @@ class CameraSequences:
 
     def afterAerSequence(self):
         return (
-            lambda: (self.focusOnBeginningTillAerVidInstant(), self.diveIntoCurrentInstant()),
+            self.diveIntoGettingAer,
             self.focusOnAfterAer,
             self.flashOnStartAndGettingAer,
             self.focusAndFlashOnAerVid,
             self.focusBetweenGettingAerAndAerVid,
             self.flashOnBeforeAerVidDurationLine,
-            lambda: self.diveIntoCurrent(duration=30, targetY=-30, easingFunction=Easings.easeInQuad, realDurationCoef=0.1),
+            lambda: self.diveIntoCurrent(duration=20, targetY=-40, easingFunction=Easings.easeInQuad, realDurationCoef=0.1),
         )
 
     def kerSigmaSequence(self):

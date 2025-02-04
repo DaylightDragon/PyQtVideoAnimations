@@ -17,6 +17,10 @@ class NumberText:
         self.text_opacity = ValueInterpolator(1.0)
         self.font_size = ValueInterpolator(12)
 
+        self.outline_color = ColorInterpolator(QColor.fromRgb(50, 50, 50))
+        self.outline_opacity = ValueInterpolator(1.0)
+        self.outline_width = ValueInterpolator(2)
+
         self.animation_extra_font_size = ValueInterpolator(10)
 
         self.actual_font_size = ValueInterpolator(self.font_size.getValue())
@@ -25,6 +29,7 @@ class NumberText:
         self.value = ValueInterpolator(0)
         self.__lastWholeNumber = None
         self.onValueChange = None
+        self.customFormatFunc = None
 
     def setFontSize(self, font_size):
         self.font_size.setValue(font_size)
@@ -32,6 +37,9 @@ class NumberText:
 
     def setOnValueChange(self, func):
         self.onValueChange = func
+
+    def setCustomFormatFunc(self, func):
+        self.customFormatFunc = func
 
     def formatNumber(self, n) -> str:
         s = str(int(n))
@@ -58,12 +66,20 @@ class NumberText:
                                                       duration=30,
                                                       easingFunction=Easings.easeOutExpo)
 
+        formattedNumber = self.formatNumber(self.value.getValueInt())
+        final_text = formattedNumber
+        if self.customFormatFunc is not None:
+            final_text = self.customFormatFunc(self.value, formattedNumber)
+
         CanvasUtils.drawTextAt(painter=painter,
                                data=self.data,
                                raw_pos=(self.x.getValue(), self.y.getValue()),
-                               text=self.formatNumber(self.value.getValueInt()),
+                               text=final_text,
                                color=ColorTools.apply_opacity_to_color(self.text_color.getValue(), self.text_opacity.getValue()),
                                font_size=self.actual_font_size.getValue(),
+                               outline=True,
+                               outline_color=ColorTools.apply_opacity_to_color(self.outline_color.getValue(), self.outline_opacity.getValue()),
+                               outline_width=self.outline_width.getValue(),
                                scaleFont=True,
                                offsetSize=60)
 

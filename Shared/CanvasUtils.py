@@ -8,9 +8,6 @@ from PyQt6.QtCore import Qt, QPoint
 from Shared.Data import Data
 
 
-def qpointToTuple(point: QPoint):
-    return (point.x(), point.y())
-
 def tupleToQpoint(point):
     return QPoint(int(point[0]), int(point[1]))
 
@@ -35,9 +32,9 @@ def getAutoScaledFontSize(data: Data, font_size):
     return int(pow(data.navigation.globalPositionData.scale * font_size, 0.9))
 
 def drawTextAt(painter: QPainter, data: Data, raw_pos, text, color=None, outline_width=2, font_size=14, outline=False, outline_color=None, keepWidth=False, keepHeight=False, scaleFont=False, offsetSize = 10):
-
+    # print(raw_pos)
     if outline and outline_color is not None:
-        drawTextAt(painter=painter, data=data, raw_pos=raw_pos, text=text, color=outline_color, outline_width=outline_width + 30, font_size=font_size, outline=False, outline_color=None, keepWidth=keepWidth, keepHeight=keepHeight, scaleFont=scaleFont)
+        drawTextAt(painter=painter, data=data, raw_pos=raw_pos, text=text, color=outline_color, outline_width=outline_width, font_size=font_size+outline_width, outline=False, outline_color=outline_color, keepWidth=keepWidth, keepHeight=keepHeight, scaleFont=scaleFont, offsetSize=offsetSize)
 
     # lineOffset =
     # for line in text.splitlines()[1:]:
@@ -56,7 +53,7 @@ def drawTextAt(painter: QPainter, data: Data, raw_pos, text, color=None, outline
     if color is None:
         painter.setPen(Qt.PenStyle.NoPen)
     else:
-        painter.setPen(QPen(color, outline_width))
+        painter.setPen(QPen(color, int(outline_width)))
 
     font = QFont("Franklin Gothic Demi Cond")
     font.setPixelSize(int(font_size))

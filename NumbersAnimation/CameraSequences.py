@@ -36,8 +36,8 @@ class CameraSequences:
         sequence = self.sequences[self.index]
         sequence()
 
-    small_scale = 20
-    big_scale = small_scale * 1.2
+    small_scale = 15
+    # big_scale = small_scale * 1.2
 
     def onNewValue(self, oldValue, newValue):
         pass
@@ -48,23 +48,28 @@ class CameraSequences:
         #                                       easingFunction=Easings.easeOutExpo
         #                                       )
 
+    def mainTextFormatFuncAccs(self, value, formattedNumber):
+        return f'Аккаунтов: {formattedNumber}'
+
     def initial_operations(self):
         self.data.navigation.globalPositionData.position = (0, 0)
         self.data.navigation.globalPositionData.scale = self.small_scale
         self.data.navigation.zoom_value = 1
 
         mainText: NumberText = self.data.simulation.getTextById('mainText')
+        mainText.outline_color
         mainText.x.setValue(0)
         mainText.y.setValue(0)
         mainText.setFontSize(20)
         mainText.setOnValueChange(self.onNewValue)
+        mainText.setCustomFormatFunc(self.mainTextFormatFuncAccs)
 
         mainText.animation_extra_font_size.setValue(3)
-        mainText.value.setValue(10)
+        mainText.value.setValue(8)
 
     def increaseNumber0_1(self):
         mainText: NumberText = self.data.simulation.getTextById('mainText')
-        mainText.value.fadeToValue(target_value=24, duration=600, easingFunction=Easings.easeOutQuint, realDurationCoef=0.0012)
+        mainText.value.fadeToValue(target_value=12, duration=300, easingFunction=Easings.easeOutQuint, realDurationCoef=0.0027)
 
     def increaseNumber1(self):
         mainText: NumberText = self.data.simulation.getTextById('mainText')

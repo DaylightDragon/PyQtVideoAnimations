@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QSizePolicy
 from PyQt6.QtGui import QPainter, QColor
 
+from Shared import Colors
 from Shared.Data import Data
 from Shared.ColorInterpolator import ColorInterpolator
 from Shared.NavigationUtils import Navigation
@@ -13,7 +14,7 @@ class Canvas(QWidget):
     def __init__(self, data: Data):
         super().__init__()
         self.data = data
-        self.bgColor = ColorInterpolator(QColor("#222222"))
+        self.bgColor = ColorInterpolator(Colors.PURPLE_KEYCOLOR)
 
         self.data.canvas = self
         self.data.navigation = Navigation(self.data)
