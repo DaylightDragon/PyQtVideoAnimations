@@ -1,5 +1,6 @@
 from PyQt6.QtGui import QColor
 
+from Shared import Easings
 from Shared.WindowRect import WindowRect
 
 RED_FLASH = QColor.fromRgb(200, 80, 80)
@@ -75,10 +76,10 @@ class CameraSequences:
         rect4.font_size.setValue(initial_font_size)
 
     def showRect(self, rect: WindowRect, start_delay=0.0, noFlash=False):
-        rect.line_opacity.fadeToValue(target_value=1, duration=5, start_delay=start_delay)
-        rect.text_opacity.fadeToValue(target_value=1.0, duration=5, start_delay=start_delay)
+        rect.line_opacity.fadeToValue(target_value=1, duration=2, realDurationCoef=1, easingFunction=Easings.easeOutQuint, start_delay=start_delay)
+        rect.text_opacity.fadeToValue(target_value=1.0, duration=2, realDurationCoef=1, easingFunction=Easings.easeOutQuint, start_delay=start_delay)
         if not noFlash:
-            rect.line_color.pulseToValue(target_color=RED_FLASH, duration=5, start_delay=start_delay)
+            rect.line_color.pulseToValue(target_color=RED_FLASH, duration=2, realDurationCoef=1, easingFunction=Easings.easeOutQuint, start_delay=start_delay)
 
     def showFirstRect(self):
         rect1: WindowRect = self.data.simulation.getRectById("rect1")

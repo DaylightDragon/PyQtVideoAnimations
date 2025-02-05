@@ -107,7 +107,7 @@ class ValueInterpolator:
                     self.perf_end_time = time.perf_counter()
                     elapsed_time = self.perf_end_time - self.perf_start_time
                     # if self.instanceId == 'mainNum2':
-                    print(f"{self.instanceId} | Interpolator took {elapsed_time:.6f} seconds")
+                    print(f"{self.instanceId} | Interpolator took {elapsed_time:.6f} seconds, now at value {self.value}")
                 else:
                     self.pulseToValue(target_value=self.defaultValue, duration=self.smoothValueDuration*2, realDurationCoef=self.realDurationCoef, easingFunction=self.smoothValueEasing, alreadyBack=True)
             else:

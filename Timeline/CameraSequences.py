@@ -77,13 +77,24 @@ class CameraSequences:
 
         self.data.visualSizes.durationLineGeneralOffset.fadeToValue(target_value=-30, duration=5)
         self.data.cameraMovement.smoothMoveTo(targetX=start.position + (gettingAer.position - start.position)/2, targetScale=5, duration=5)
-        start.text_color.pulseToValue(target_color=RED_FLASH, duration=3, start_delay=5 * 0.2)
-        gettingAer.text_color.pulseToValue(target_color=RED_FLASH, duration=3, start_delay=7 * 0.2)
+
+    def flashOnStartOnly(self):
+        start = self.data.simulation.getEventById("cosStart")
+        gettingAer = self.data.simulation.getEventById("gettingAer")
+        start.text_color.pulseToValue(target_color=RED_FLASH, duration=3)
+        self.data.cameraMovement.smoothMoveTo(targetX=start.position, targetScale=6, duration=5)
+
+    def flashOnGettingAerOnly(self):
+        start = self.data.simulation.getEventById("cosStart")
+        gettingAer = self.data.simulation.getEventById("gettingAer")
+
+        gettingAer.text_color.pulseToValue(target_color=RED_FLASH, duration=3)
+        self.data.cameraMovement.smoothMoveTo(targetX=gettingAer.position, targetScale=6, duration=5)
 
     def focusAndFlashOnAerVid(self):
         aerVid = self.data.simulation.getEventById("aerVideo")
         self.data.cameraMovement.smoothMoveTo(targetX=aerVid.position, targetScale=5, duration=8)
-        aerVid.text_color.pulseToValue(target_color=RED_FLASH, duration=3, start_delay=6 * 0.2)
+        aerVid.text_color.pulseToValue(target_color=RED_FLASH, duration=3, start_delay=3 * 0.2)
 
     def focusBetweenGettingAerAndAerVid(self):
         gettingAer = self.data.simulation.getEventById("gettingAer")
@@ -174,6 +185,8 @@ class CameraSequences:
             self.diveIntoGettingAer,
             self.focusOnAfterAer,
             self.flashOnStartAndGettingAer,
+            self.flashOnStartOnly,
+            self.flashOnGettingAerOnly,
             self.focusAndFlashOnAerVid,
             self.focusBetweenGettingAerAndAerVid,
             self.flashOnBeforeAerVidDurationLine,

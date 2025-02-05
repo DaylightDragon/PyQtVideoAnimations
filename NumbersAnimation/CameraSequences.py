@@ -66,7 +66,7 @@ class CameraSequences:
         mainText.font_size.instanceId = 'mainNum font_size'
         mainText.actual_font_size.instanceId = 'mainNum actual_font_size'
         mainText.outline_width.setValue(15)
-        mainText.outline_color.setValue(QColor.fromRgb(60,60,60))
+        mainText.outline_color.setValue(QColor.fromRgb(60, 60, 60))
 
         mainText.animation_extra_font_size.setValue(3)
         mainText.value.setValue(8)
